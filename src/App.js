@@ -6,11 +6,13 @@ import StartScreen from "./StartScreen";
 import { useEffect, useReducer } from "react";
 
 function App() {
+  // 'loading', 'error', 'ready', 'active', 'finished'
   const initialState = { status: "loading", questions: [] };
+
   function reducer(state, action) {
     switch (action.type) {
       case "datareceived":
-        return { ...state, status: "start" };
+        return { ...state, status: "active" };
       case "dataFailed":
         return { ...state, status: "error" };
       case "ready":
@@ -44,7 +46,7 @@ function App() {
             questions={questions}
           />
         )}
-        {status === "start" &&
+        {status === "active" &&
           questions.map((questions) => <p>{questions.question}</p>)}
       </Main>
     </div>
