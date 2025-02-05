@@ -4,10 +4,11 @@ import Loader from "./Loader";
 import Error from "./Error";
 import StartScreen from "./StartScreen";
 import { useEffect, useReducer } from "react";
+import Question from "./Question";
 
 function App() {
   // 'loading', 'error', 'ready', 'active', 'finished'
-  const initialState = { status: "loading", questions: [] };
+  const initialState = { status: "loading", questions: [], index: 0 };
 
   function reducer(state, action) {
     switch (action.type) {
@@ -29,7 +30,7 @@ function App() {
       .catch((err) => dispatch({ type: "dataFailed" }));
   }, []);
 
-  const { status, questions } = state;
+  const { status, questions, index } = state;
 
   const numQuestions = questions.length;
 
@@ -46,8 +47,7 @@ function App() {
             questions={questions}
           />
         )}
-        {status === "active" &&
-          questions.map((questions) => <p>{questions.question}</p>)}
+        {status === "active" && <Question question={questions[index]} />}
       </Main>
     </div>
   );
