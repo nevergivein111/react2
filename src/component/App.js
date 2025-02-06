@@ -16,6 +16,8 @@ function App() {
         return { ...state, status: "active" };
       case "dataFailed":
         return { ...state, status: "error" };
+      case "newAnswer":
+        return { ...state, answer: action.payload };
       case "ready":
         return { ...state, status: "ready", questions: action.payload };
       default:
@@ -30,7 +32,7 @@ function App() {
       .catch((err) => dispatch({ type: "dataFailed" }));
   }, []);
 
-  const { status, questions, index } = state;
+  const { status, questions, index, answer } = state;
 
   const numQuestions = questions.length;
 
@@ -47,7 +49,13 @@ function App() {
             questions={questions}
           />
         )}
-        {status === "active" && <Question question={questions[index]} />}
+        {status === "active" && (
+          <Question
+            question={questions[index]}
+            correctAnswer={answer}
+            dispatch={dispatch}
+          />
+        )}
       </Main>
     </div>
   );
