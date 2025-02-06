@@ -8,7 +8,12 @@ import Question from "./Question";
 
 function App() {
   // 'loading', 'error', 'ready', 'active', 'finished'
-  const initialState = { status: "loading", questions: [], index: 0 };
+  const initialState = {
+    status: "loading",
+    questions: [],
+    index: 0,
+    answer: null,
+  };
 
   function reducer(state, action) {
     switch (action.type) {
