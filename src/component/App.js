@@ -5,6 +5,7 @@ import Error from "./Error";
 import StartScreen from "./StartScreen";
 import { useEffect, useReducer } from "react";
 import Question from "./Question";
+import NextQuestion from "./NextQuestion";
 
 function App() {
   // 'loading', 'error', 'ready', 'active', 'finished'
@@ -13,6 +14,7 @@ function App() {
     questions: [],
     index: 0,
     answer: null,
+    points: 0,
   };
 
   function reducer(state, action) {
@@ -21,8 +23,16 @@ function App() {
         return { ...state, status: "active" };
       case "dataFailed":
         return { ...state, status: "error" };
+      case "nextbutton":
+        return { ...state, answer: null, index: state.index + 1 };
       case "newAnswer":
-        return { ...state, answer: action.payload };
+        const question = state.questions[state.index];
+        const newPoints =
+          action.payload === question.correctOption
+            ? state.points + question.points
+            : state.points;
+
+        return { ...state, answer: action.payload, points: newPoints };
       case "ready":
         return { ...state, status: "ready", questions: action.payload };
       default:
@@ -36,6 +46,8 @@ function App() {
       .then((data) => dispatch({ type: "ready", payload: data }))
       .catch((err) => dispatch({ type: "dataFailed" }));
   }, []);
+
+  console.log(state);
 
   const { status, questions, index, answer } = state;
 
@@ -55,11 +67,14 @@ function App() {
           />
         )}
         {status === "active" && (
-          <Question
-            question={questions[index]}
-            correctAnswer={answer}
-            dispatch={dispatch}
-          />
+          <>
+            <Question
+              question={questions[index]}
+              correctAnswer={answer}
+              dispatch={dispatch}
+            />
+            <NextQuestion dispatch={dispatch} answer={answer} />
+          </>
         )}
       </Main>
     </div>

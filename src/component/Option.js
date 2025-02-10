@@ -1,5 +1,4 @@
 function Option({ question, correctAnswer, dispatch }) {
-  console.log(question, correctAnswer);
   const hasAnswered = correctAnswer !== null;
   return (
     <div className="options">
@@ -15,6 +14,7 @@ function Option({ question, correctAnswer, dispatch }) {
               : ""
           }`}
           key={option}
+          disabled={hasAnswered}
           onClick={() => dispatch({ type: "newAnswer", payload: index })}
         >
           {option}
