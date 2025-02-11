@@ -1,8 +1,18 @@
 import Option from "./Option";
 
-function Question({ question, correctAnswer, dispatch }) {
+function Question({
+  points,
+  totalpoints,
+  question,
+  correctAnswer,
+  dispatch,
+  numQuestions,
+  index,
+}) {
   return (
     <div>
+      Question {index} /{numQuestions}
+      points {points} /{totalpoints}
       <button className="btn btn-option">
         <h2>{question.question}</h2>
       </button>

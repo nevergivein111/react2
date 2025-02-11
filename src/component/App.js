@@ -49,9 +49,12 @@ function App() {
 
   console.log(state);
 
-  const { status, questions, index, answer } = state;
+  const { status, questions, index, answer, points } = state;
 
   const numQuestions = questions.length;
+  const totalpoints = questions.reduce((acc, news) => acc + news.points, 0);
+
+  console.log(totalpoints);
 
   return (
     <div className="app">
@@ -72,6 +75,10 @@ function App() {
               question={questions[index]}
               correctAnswer={answer}
               dispatch={dispatch}
+              numQuestions={numQuestions}
+              index={index}
+              totalpoints={totalpoints}
+              points={points}
             />
             <NextQuestion dispatch={dispatch} answer={answer} />
           </>
